@@ -15,7 +15,7 @@ void handle_client(int client_socket) {
     // Read normal data
     int valread = recv(client_socket, buffer, BUFFER_SIZE, 0);
     if (valread <= 0) {
-        std::cerr << "Failed to receive data from client." << std::endl;
+        perror("Failed to receive data from client.\n");
         close(client_socket);
         return;
     }
