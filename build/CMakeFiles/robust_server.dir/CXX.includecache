@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/workspaces/NetworkProgrammingIOT24/robust.server.cpp
+iostream
+-
+thread
+-
+mutex
+-
+condition_variable
+-
+queue
+-
+unordered_map
+-
+vector
+-
+chrono
+-
+cstring
+-
+unistd.h
+-
+fcntl.h
+-
+arpa/inet.h
+-
+sys/socket.h
+-
+sys/select.h
+-
+signal.h
+-
+errno.h
+-
+
