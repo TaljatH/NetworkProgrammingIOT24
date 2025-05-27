@@ -23,7 +23,7 @@ const int PORT = 8080;
 const int MAX_CLIENTS = 100;
 const int BUFFER_SIZE = 4096;
 const int THREAD_POOL_SIZE = 4;
-const int CLIENT_TIMEOUT_SEC = 60;
+const int CLIENT_TIMEOUT_SEC = 30;
 
 // task
 struct Task {
@@ -31,7 +31,7 @@ struct Task {
     string data;
 };
 
-// queue
+
 queue<Task> taskQueue;
 mutex queueMutex;
 condition_variable taskCond;
@@ -149,7 +149,7 @@ int main() {
             lock_guard<mutex> lock(clientMapMutex);
             for (auto it = clientStates.begin(); it != clientStates.end();) {
                 if (chrono::duration_cast<chrono::seconds>(now - it->second.lastActive).count() > CLIENT_TIMEOUT_SEC) {
-                    cout << "Client " << it->first << " timed out\n";
+                    cout << "Client " <<" timed out\n";
                     closeClient(it->first, master_set);
                     it = clientStates.erase(it);
                 } else {
@@ -181,15 +181,6 @@ int main() {
                 // recv
                 char buffer[BUFFER_SIZE];
                 ssize_t bytes = recv(fd, buffer, sizeof(buffer), 0);
-                if (bytes <= 0) {
-                    if (bytes == 0 || errno == ECONNRESET) {
-                        cout << "Client " << fd << " disconnected\n";
-                    } else {
-                        perror("recv");
-                    }
-                    closeClient(fd, master_set);
-                    continue;
-                }
 
                 lock_guard<mutex> lock(clientMapMutex);
                 clientStates[fd].lastActive = chrono::steady_clock::now();
